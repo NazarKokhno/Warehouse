@@ -60,21 +60,20 @@ int main()
             {
                 // RemoveProduct(warehouse, globalQuantity);
             }
-                break;
+            break;
         
         case 3:
             if (EnsureWarehouseExists(warehouseData, WAREHOUSE_SIZE, globalQuantity))
             {
                 // ReplaceProduct(warehouse, globalQuantity);
             }
-                break;
+            break;
        
         case 4:
-
-        if (EnsureWarehouseExists(warehouseData, WAREHOUSE_SIZE, globalQuantity))
-        {
-            SearchMenu(warehouseData, globalQuantity);
-        }
+            if (EnsureWarehouseExists(warehouseData, WAREHOUSE_SIZE, globalQuantity))
+            {
+                SearchMenu(warehouseData, globalQuantity);
+            }
             break;
         
         case 0:
