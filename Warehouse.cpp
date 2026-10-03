@@ -20,6 +20,7 @@ struct Product
 };
 
 using namespace std;
+// Check
 
 void CreateWarehouse(Product arr[], int SIZE, int& globalQuantity)
 {
