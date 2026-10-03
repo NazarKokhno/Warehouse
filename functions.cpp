@@ -189,3 +189,78 @@ void CreateWarehouse(Product arr[], int SIZE, int& globalQuantity)
 
     } while (choice != 0 && choice != 1);
 }
+
+void ShowMenu()
+{
+    cout << "\n===== WAREHOUSE MENU =====" << endl;
+    cout << "1 - Add product" << endl;
+    cout << "2 - Remove product" << endl;
+    cout << "3 - Replace product" << endl;
+    cout << "4 - Search product" << endl;
+    cout << "0 - Exit" << endl;
+    cout << "Your choice: ";
+}
+
+void ShowSearchMenu()
+{
+    cout << "\n===== SEARCH =====" << endl;
+    cout << "1 - By product name" << endl;
+    cout << "2 - By manufacturer" << endl;
+    cout << "3 - By price" << endl;
+    cout << "4 - By product group" << endl;
+    cout << "5 - By arrival date" << endl;
+    cout << "6 - By expiration date" << endl;
+    cout << "0 - Back" << endl;
+    cout << "Your choice: ";
+}
+
+void SearchMenu(Product arr[], int globalQuantity)
+{
+    int choice;
+
+    do
+    {
+        ShowSearchMenu();
+        cin >> choice;
+        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+
+        switch (choice)
+        {
+        case 1:
+            // SearchByName(arr, globalQuantity);
+            break;
+        case 2:
+            // SearchByManufacturer(arr, globalQuantity);
+            break;
+        case 3:
+            // SearchByPrice(arr, globalQuantity);
+            break;
+        case 4:
+            // SearchByGroup(arr, globalQuantity);
+            break;
+        case 5:
+            // SearchByArrivalDate(arr, globalQuantity);
+            break;
+        case 6:
+            // SearchByExpirationDate(arr, globalQuantity);
+            break;
+        case 0:
+            break;
+        default:
+            cout << "Invalid input!" << endl;
+        }
+    } while (choice != 0);
+}
+
+bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
+{
+    if (globalQuantity > 0)
+    {
+        return true;
+    }
+
+    cout << "The warehouse is empty. Let's create it first." << endl;
+    CreateWarehouse(arr, size, globalQuantity);
+
+    return globalQuantity > 0;
+}
