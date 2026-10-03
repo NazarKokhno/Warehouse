@@ -9,6 +9,4 @@ struct Product
     char groupName[GROUP_NAME_SIZE];
     char arrivalDate[ARRIVAL_DATE_SIZE];
     char expirationDate[EXPIRATION_DATE_SIZE];
-
-
 };

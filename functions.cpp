@@ -35,26 +35,44 @@ bool IsValidExpirationDate(const char date[])
     return true;
 }
 
-void CreateWarehouse(Product arr[], int SIZE, int& globalQuantity)
+void AddProducts(Product arr[], int SIZE, int& globalQuantity)
 {
+   
+    int freeSpace = SIZE - globalQuantity;
+    
+    if (freeSpace <= 0)
+    {
+        cout << "Warehouse is full!" << endl;
+        return;
+    }
 
+    cout << "Free space: " << freeSpace << endl;
     cout << "How many products would you like to add?: ";
+
     int quantity;
+    
     do
     {
-        cin >> quantity;
-
-        if (quantity <= 0 || quantity > SIZE)
+        while (!(cin >> quantity))
         {
-            cout << "Enter the correct quantity.(1 - " << SIZE << "): ";
+            cin.clear();
+            cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+            cout << "Invalid input! Enter a number: ";
+        }
+        
+        if (quantity <= 0 || quantity > freeSpace)
+        {
+            cout << "Enter the correct quantity.(1 - " << freeSpace << "): ";
         }
 
-    } while (quantity <= 0 || quantity > SIZE);
-
+    } while (quantity <= 0 || quantity > freeSpace);
 
     cin.ignore((numeric_limits<streamsize>::max)(), '\n');
 
-    for (int i = 0; i < quantity; i++)
+    int start = globalQuantity;
+    int end = globalQuantity + quantity;
+
+    for (int i = start; i < end; i++)
     {
         cout << "POSITION " << i + 1 << endl;
 
@@ -65,14 +83,21 @@ void CreateWarehouse(Product arr[], int SIZE, int& globalQuantity)
         cin.getline(arr[i].productName, PRODUCT_NAME_SIZE);
 
         cout << "Enter the product price: ";
-        cin >> arr[i].productPrice;
+        
+        while (!(cin >> arr[i].productPrice) || arr[i].productPrice < 0)
+        {
+            cin.clear();
+            cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+            cout << "Invalid input! Enter a non-negative number: ";
+        }
 
         cin.ignore((numeric_limits<streamsize>::max)(), '\n');
 
         cout << "Enter the product`s group name: ";
         cin.getline(arr[i].groupName, GROUP_NAME_SIZE);
-        
+
         bool isValid;
+        
         do
         {
             cout << "Enter the date of arrival at the warehouse (DD-MM-YYYY): ";
@@ -87,13 +112,17 @@ void CreateWarehouse(Product arr[], int SIZE, int& globalQuantity)
 
         } while (!isValid);
 
-
         int choiceForDate;
 
         do
         {
             cout << "Does this product have an expiration date? (0 - No, 1 - Yes): ";
-            cin >> choiceForDate;
+            while (!(cin >> choiceForDate))
+            {
+                cin.clear();
+                cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+                cout << "Invalid input! Enter a number: ";
+            }
 
             if (choiceForDate != 0 && choiceForDate != 1)
             {
@@ -104,12 +133,13 @@ void CreateWarehouse(Product arr[], int SIZE, int& globalQuantity)
 
         cin.ignore((numeric_limits<streamsize>::max)(), '\n');
 
-
         if (choiceForDate == 0)
         {
             strncpy(arr[i].expirationDate, "No expiration date", EXPIRATION_DATE_SIZE - 1);
+            
             arr[i].expirationDate[EXPIRATION_DATE_SIZE - 1] = '\0';
         }
+        
         else
         {
             do
@@ -126,79 +156,71 @@ void CreateWarehouse(Product arr[], int SIZE, int& globalQuantity)
 
             } while (!isValid);
         }
-
     }
+
     int choice;
-    
+
     do
     {
-        cout << "Save changes? (0/1): ";
-        cin >> choice;
+        cout << "Save changes? (0 - No, 1 - Yes): ";
+        
+        while (!(cin >> choice))
+        {
+            cin.clear();
+            cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+            cout << "Invalid input! Enter a number: ";
+        }
 
         switch (choice)
         {
 
-        case 0:
-        {
-            return;
-        }
-
-        case 1:
-        {
-
-            FILE* warehouseFile = fopen("warehouse.txt", "w");
-
-            if (warehouseFile == NULL)
+            case 0:
             {
-                perror("Error opening file");
                 return;
             }
 
-            globalQuantity += quantity;
-
-            fprintf(warehouseFile, "%-20s %-20s %-20s %-20s %-20s %-25s\n\n",
-                "Manufacturer",
-                "Product",
-                "Price",
-                "Group",
-                "Date of arrival",
-                "Best-before date");
-
-            for (int i = 0; i < quantity; i++)
+            case 1:
             {
-                fprintf(warehouseFile, "%-20s %-20s %-20.2f %-20s %-20s %-25s\n",
-                    arr[i].manufacturerName,
-                    arr[i].productName,
-                    arr[i].productPrice,
-                    arr[i].groupName,
-                    arr[i].arrivalDate,
-                    arr[i].expirationDate);
+                bool isNewFile = (globalQuantity == 0);
+                FILE* warehouseFile = fopen("warehouse.txt", isNewFile ? "w" : "a");
+
+                if (warehouseFile == NULL)
+                {
+                    perror("Error opening file");
+                    return;
+                }
+
+                if (isNewFile)
+                {
+                    fprintf(warehouseFile, "%-20s %-20s %-20s %-20s %-20s %-30s\n\n",
+                        "Manufacturer", "Product", "Price", "Group",
+                        "Date of arrival", "Best-before date");
+                }
+
+                for (int i = start; i < end; i++)
+                {
+                    fprintf(warehouseFile, "%-20s %-20s %-20.2f %-20s %-20s %-30s\n",
+                        arr[i].manufacturerName,
+                        arr[i].productName,
+                        arr[i].productPrice,
+                        arr[i].groupName,
+                        arr[i].arrivalDate,
+                        arr[i].expirationDate);
+                }
+
+                fclose(warehouseFile);
+                globalQuantity += quantity;
+                break;
             }
 
-            fclose(warehouseFile);
-            break;
-        }
-
-        default:
-        {
-            cout << "invalid input";
-            break;
-        }
-
+            default:
+                cout << "Invalid input!" << endl;
+                break;
         }
 
     } while (choice != 0 && choice != 1);
-}
+               
 
-void ShowMenu()
-{
-    cout << "\n===== WAREHOUSE MENU =====" << endl;
-    cout << "1 - Add product" << endl;
-    cout << "2 - Remove product" << endl;
-    cout << "3 - Replace product" << endl;
-    cout << "4 - Search product" << endl;
-    cout << "0 - Exit" << endl;
-    cout << "Your choice: ";
 }
 
 void ShowSearchMenu()
@@ -221,7 +243,14 @@ void SearchMenu(Product arr[], int globalQuantity)
     do
     {
         ShowSearchMenu();
-        cin >> choice;
+        
+        while (!(cin >> choice))
+        {
+            cin.clear();
+            cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+            cout << "Invalid input! Enter a number: ";
+        }
+        
         cin.ignore((numeric_limits<streamsize>::max)(), '\n');
 
         switch (choice)
@@ -259,8 +288,8 @@ bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
         return true;
     }
 
-    cout << "The warehouse is empty. Let's create it first." << endl;
-    CreateWarehouse(arr, size, globalQuantity);
+    cout << "The warehouse is empty. Let's add products first." << endl;
+    AddProducts(arr, size, globalQuantity);
 
     return globalQuantity > 0;
 }
