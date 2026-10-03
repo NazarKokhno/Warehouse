@@ -22,6 +22,8 @@ int main()
 
     Product warehouseData[WAREHOUSE_SIZE];
 
+    CreateWarehouse( warehouseData,WAREHOUSE_SIZE,globalQuantity);
+
 
     
 }

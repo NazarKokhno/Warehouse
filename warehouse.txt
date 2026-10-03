@@ -1,2 +1,4 @@
-Manufacturer         Product              Price      Group                Date of arrival
-Cocacola             Cocacola             12.00      Drinks               12.09.2025     
+Manufacturer         Product              Price                Group                Date of arrival      Best-before date         
+
+Samsung              Galaxy S25           34999.00             Smartphones          15-09-2026           No expiration date       
+Nestle               Greek Yogurt         89.50                Dairy                15-09-2026           20.09.2026               

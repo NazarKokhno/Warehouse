@@ -8,7 +8,7 @@ struct Product
     double productPrice;
     char groupName[GROUP_NAME_SIZE];
     char arrivalDate[ARRIVAL_DATE_SIZE];
-    char BestBeforeDate[BEST_BEFORE_DATE_SIZE]
+    char expirationDate[EXPIRATION_DATE_SIZE];
 
 
 };
