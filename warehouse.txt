@@ -1,2 +1,2 @@
 Manufacturer         Product              Price      Group                Date of arrival
-Drinks               oad                  12.00      aosd                 12.12          
+Cocacola             Cocacola             12.00      Drinks               12.09.2025     
