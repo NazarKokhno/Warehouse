@@ -1,0 +1,6 @@
+#pragma once
+#define PRODUCT_NAME_SIZE 50
+#define MANUFACTURER_NAME_SIZE 50
+#define GROUP_NAME_SIZE 50
+#define WAREHOUSE_SIZE 50
+#define ARRIVAL_DATE_SIZE 20

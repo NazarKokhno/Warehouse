@@ -1,0 +1,2 @@
+Manufacturer         Product              Price      Group                Date of arrival
+Drinks               oad                  12.00      aosd                 12.12          
