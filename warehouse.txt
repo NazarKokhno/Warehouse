@@ -1,5 +1,5 @@
 Nestle|Nesquik|129.50|Food|05.10.2026|05.04.2027
-Coca-Cola|Coca-Cola 1.0L|35.00|Drinks|05.10.2026|05.04.2027
+Coca-Cola|Coca-Cola 0.5L|35.00|Drinks|05.10.2026|05.04.2027
 Milka|Milk Chocolate|89.99|Food|05.10.2026|05.03.2027
 Barilla|Spaghetti|74.50|Food|05.10.2026|05.10.2028
 J7|Orange Juice|69.90|Drinks|05.10.2026|05.01.2027

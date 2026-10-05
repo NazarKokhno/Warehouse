@@ -23,12 +23,15 @@ void ShowMenu(int globalQuantity)
     cout << "4 - Search product" << endl;
     cout << "5 - Sort product" << endl;
     cout << "6 - Quick Check (Add 10 Demo Products)" << endl;
+    cout << "7 - Show all products" << endl;
     cout << "0 - Exit" << endl;
     cout << "Your choice: ";
 }
 
 int main()
 {
+    SetConsoleOutputCP(CP_UTF8);
+
     FILE* f = fopen("warehouse.txt", "w");
     if (f) fclose(f);
 
@@ -103,6 +106,14 @@ int main()
             break;
         }
         
+        case 7:
+        {
+            if (EnsureWarehouseExists(warehouseData, WAREHOUSE_SIZE, globalQuantity))
+            {
+                ShowAllProducts(warehouseData, globalQuantity);
+            }
+            break;
+        }
         case 0:
             cout << "Goodbye!" << endl;
             break;

@@ -388,11 +388,27 @@ void ReplaceProduct(Product arr[], int& globalQuantity)
         return;
     }
 
+    cout << "\nProduct found" << endl;
+    cout << "Enter new product data ⬇" << endl << endl;
+
     InputProduct(arr[index]);
 
     SaveAll(arr, globalQuantity);
     cout << "The product was replaced. To see the changes, select \"Show all products\" in the menu." << endl;
     
+}
+void ShowAllProducts(Product arr[], int& globalQuantity)
+{
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        cout << i + 1 << ". "
+            << arr[i].manufacturerName << " | "
+            << arr[i].productName << " | "
+            << arr[i].productPrice << " | "
+            << arr[i].groupName << " | "
+            << arr[i].arrivalDate << " | "
+            << arr[i].expirationDate << endl;
+    }
 }
 
 
