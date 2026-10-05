@@ -5,7 +5,8 @@
 #include <stdlib.h>  
 #include <string.h> 
 #include <limits>
-#include <errno.h>   
+#include <errno.h>  
+#include <iomanip>
 
 #include "constants.h"
 #include "product.h"
@@ -363,7 +364,7 @@ void RemoveProduct(Product arr[], int& globalQuantity)
     SaveAll(arr, globalQuantity);
     cout << "The product was removed. To see the changes, select \"Show all products\" in the menu." << endl;
 }
-void ReplaceProduct(Product arr[], int& globalQuantity)
+void ReplaceProduct(Product arr[], int globalQuantity)
 {
     char item[PRODUCT_NAME_SIZE];
     
@@ -399,7 +400,7 @@ void ReplaceProduct(Product arr[], int& globalQuantity)
     cout << "The product was replaced. To see the changes, select \"Show all products\" in the menu." << endl;
     
 }
-void ShowAllProducts(Product arr[], int& globalQuantity)
+void ShowAllProducts(Product arr[], int globalQuantity)
 {
     if (globalQuantity == 0)
     {
@@ -418,7 +419,7 @@ void ShowAllProducts(Product arr[], int& globalQuantity)
             << arr[i].expirationDate << endl;
     }
 }
-void SearchByName(Product arr[], int& globalQuantity)
+void SearchByName(Product arr[], int globalQuantity)
 {
     char nameChoice[PRODUCT_NAME_SIZE];
     cout << "Enter the product name to search" << endl;
@@ -457,7 +458,7 @@ void SearchByName(Product arr[], int& globalQuantity)
     }
 
 }
-void SearchByManufacturer(Product arr[], int& globalQuantity)
+void SearchByManufacturer(Product arr[], int globalQuantity)
 {
     char manufacturerChoice[MANUFACTURER_NAME_SIZE];
     cout << "Enter the product manufacturer to search" << endl;
@@ -496,12 +497,18 @@ void SearchByManufacturer(Product arr[], int& globalQuantity)
     }
 
 }
-void SearchByPrice(Product arr[], int& globalQuantity)
+void SearchByPrice(Product arr[], int globalQuantity)
 {
     double priceChoice;
     cout << "Enter the product price to search" << endl;
     cout << "--> ";
-    cin >> priceChoice;
+    
+    while (!(cin >> priceChoice))
+    {
+        cin.clear();
+        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+        cout << "Invalid input! Enter a number: ";
+    }
     cin.ignore((numeric_limits<streamsize>::max)(), '\n');
 
     int matches = 0;
@@ -536,7 +543,7 @@ void SearchByPrice(Product arr[], int& globalQuantity)
     }
 
 }
-void SearchByGroup(Product arr[], int& globalQuantity)
+void SearchByGroup(Product arr[], int globalQuantity)
 {
     char groupChoice[GROUP_NAME_SIZE];
     cout << "Enter the product group to search (e.g. Food)" << endl;
@@ -575,7 +582,7 @@ void SearchByGroup(Product arr[], int& globalQuantity)
     }
 
 }
-void SearchByArrivalDate(Product arr[], int& globalQuantity)
+void SearchByArrivalDate(Product arr[], int globalQuantity)
 {
     char ArrivalDateChoice[ARRIVAL_DATE_SIZE];
     
@@ -627,7 +634,7 @@ void SearchByArrivalDate(Product arr[], int& globalQuantity)
     }
 
 }
-void SearchByExpirationDate(Product arr[], int& globalQuantity)
+void SearchByExpirationDate(Product arr[], int globalQuantity)
 {
     char ExpirationDateChoice[EXPIRATION_DATE_SIZE];
 
@@ -636,7 +643,8 @@ void SearchByExpirationDate(Product arr[], int& globalQuantity)
 
     do
     {
-        cout << "Enter the expiration date to search (DD.MM.YYYY): ";
+        cout << "Enter the expiration date to search (DD.MM.YYYY)" << endl;
+        cout << "--> ";
         cin.getline(ExpirationDateChoice, EXPIRATION_DATE_SIZE);
 
         isValid = IsValidDateFormat(ExpirationDateChoice);

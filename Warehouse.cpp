@@ -6,6 +6,8 @@
 #include <string.h> 
 #include <limits>
 #include <errno.h>   
+#include <iomanip>
+
 
 #include "constants.h"
 #include "product.h"
@@ -17,6 +19,8 @@ using namespace std;
 int main()
 {
     SetConsoleOutputCP(CP_UTF8);
+
+    cout << fixed << setprecision(2);
 
     FILE* f = fopen("warehouse.txt", "w");
     if (f) fclose(f);
