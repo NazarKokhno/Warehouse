@@ -7,6 +7,7 @@
 #include <limits>
 #include <errno.h>  
 #include <iomanip>
+#include <algorithm>
 
 #include "constants.h"
 #include "product.h"
@@ -281,6 +282,27 @@ void QuickCheckForDemo(Product arr[], int SIZE, int& globalQuantity)
 
     cout << "Products added." << endl;
 }
+void ShowAllProducts(Product arr[], int globalQuantity)
+{
+    if (globalQuantity == 0)
+    {
+        cout << "The warehouse is empty." << endl;
+        return;
+    }
+    cout << endl;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        cout << i + 1 << ". "
+            << arr[i].manufacturerName << " | "
+            << arr[i].productName << " | "
+            << arr[i].productPrice << " | "
+            << arr[i].groupName << " | "
+            << arr[i].arrivalDate << " | "
+            << arr[i].expirationDate << endl;
+    }
+    cout << endl;
+}
 bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
 {
     if (globalQuantity > 0)
@@ -314,6 +336,7 @@ bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
         case 2:
         {
             QuickCheckForDemo(arr, size, globalQuantity);
+            ShowAllProducts(arr, globalQuantity);
             return globalQuantity > 0;
         }
 
@@ -334,7 +357,7 @@ void RemoveProduct(Product arr[], int& globalQuantity)
 {
     char item[PRODUCT_NAME_SIZE];
     int index = -1;
-    cout << "Which item do you want to remove?" << endl;
+    cout << "Which product do you want to remove?" << endl;
     cout << "--> ";
     cin.getline(item, PRODUCT_NAME_SIZE);
    
@@ -400,26 +423,7 @@ void ReplaceProduct(Product arr[], int globalQuantity)
     cout << "The product was replaced. To see the changes, select \"Show all products\" in the menu." << endl;
     
 }
-void ShowAllProducts(Product arr[], int globalQuantity)
-{
-    if (globalQuantity == 0)
-    {
-        cout << "The warehouse is empty." << endl;
-        return;
-    }
-    cout << endl;
 
-    for (int i = 0; i < globalQuantity; i++)
-    {
-        cout << i + 1 << ". "
-            << arr[i].manufacturerName << " | "
-            << arr[i].productName << " | "
-            << arr[i].productPrice << " | "
-            << arr[i].groupName << " | "
-            << arr[i].arrivalDate << " | "
-            << arr[i].expirationDate << endl;
-    }
-}
 void SearchByName(Product arr[], int globalQuantity)
 {
     char nameChoice[PRODUCT_NAME_SIZE];
@@ -642,21 +646,48 @@ void SearchByExpirationDate(Product arr[], int globalQuantity)
     int matches = 0;
     bool isValid;
 
-    do
+    cout << "Search products with an expiration date? (0 - No, 1 - Yes)" << endl;
+    cout << "--> ";
+
+    int choice;
+
+    while (!(cin >> choice))
     {
-        cout << "Enter the expiration date to search (DD.MM.YYYY)" << endl;
-        cout << "--> ";
-        cin.getline(ExpirationDateChoice, EXPIRATION_DATE_SIZE);
+        cin.clear();
+        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+        cout << "Invalid input! Enter a number: ";
+    }
+    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
 
-        isValid = IsValidDateFormat(ExpirationDateChoice);
 
-        if (!isValid)
+    switch (choice)
+    {
+        
+    case 1:
+    {
+        do
         {
-            cout << "Invalid input!" << endl;
-        }
+            cout << "Enter the expiration date to search (DD.MM.YYYY)" << endl;
+            cout << "--> ";
+            cin.getline(ExpirationDateChoice, EXPIRATION_DATE_SIZE);
 
-    } while (!isValid);
+            isValid = IsValidDateFormat(ExpirationDateChoice);
 
+            if (!isValid)
+            {
+                cout << "Invalid input!" << endl;
+            }
+
+        } while (!isValid);
+        break;
+    }
+    case 0:
+        strcpy(ExpirationDateChoice, "No expiration date");
+        break;
+    default:
+        cout << "Invalid input!" << endl;
+        return;
+    }
 
 
     for (int i = 0; i < globalQuantity; i++)
@@ -689,9 +720,10 @@ void SearchByExpirationDate(Product arr[], int globalQuantity)
     }
 
 }
+
 void SortByPrice(Product arr[], int globalQuantity)
 {
-    for (int i = 0; i < globalQuantity; i++)
+    for (int i = 0; i < globalQuantity - 1; i++)
     {
         for (int j = 0; j < globalQuantity - 1 - i; j++)
         {
@@ -707,7 +739,7 @@ void SortByPrice(Product arr[], int globalQuantity)
 }
 void SortByProductGroup(Product arr[], int globalQuantity)
 {
-    for (int i = 0; i < globalQuantity; i++)
+    for (int i = 0; i < globalQuantity - 1; i++)
     {
         for (int j = 0; j < globalQuantity - 1 - i; j++)
         {
@@ -723,7 +755,6 @@ void SortByProductGroup(Product arr[], int globalQuantity)
 }
 
 // MENU
-
 void ShowMenu(int globalQuantity)
 {
     cout << "\n===== WAREHOUSE DEMO MODE =====" << endl;

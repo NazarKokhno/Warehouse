@@ -27,6 +27,8 @@ void SearchByPrice(Product arr[], int globalQuantity);
 void SearchByGroup(Product arr[], int globalQuantity);
 void SearchByArrivalDate(Product arr[], int globalQuantity);
 void SearchByExpirationDate(Product arr[], int globalQuantity);
+void SortByPrice(Product arr[], int globalQuantity);
+void SortByProductGroup(Product arr[], int globalQuantity);
 
 
 // MENU

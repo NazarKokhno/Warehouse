@@ -105,9 +105,12 @@ int main()
             cout << "Goodbye!" << endl;
             break;
         
+        
         default:
             cout << "Invalid input!" << endl;
+        
         }
+   
     } while (choice != 0);
 
     return 0;
