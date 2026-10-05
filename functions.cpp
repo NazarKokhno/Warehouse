@@ -276,9 +276,16 @@ bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
     int choice;
     cout << "1 - Add products; 2 - Quick Check; 0 - Exit" << endl;
     cout << "Your choice: ";
-    cin >> choice;
-    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+ 
+    while (!(cin >> choice))
+    {
+        cin.clear();
+        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+        cout << "Invalid input! Enter a number: ";
+    }
 
+    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+    
     switch (choice)
     {
         case 1:
@@ -354,6 +361,15 @@ void ShowSearchMenu()
     cout << "0 - Back" << endl;
     cout << "Your choice: ";
 }
+void ShowSortMenu()
+{
+    cout << "\n===== SORT =====" << endl;
+    cout << "1 - By price" << endl;
+    cout << "2 - By product group" << endl;
+    cout << "0 - Back" << endl;
+    cout << "Your choice: ";
+}
+
 void SearchMenu(Product arr[], int globalQuantity)
 {
     int choice;
@@ -397,5 +413,39 @@ void SearchMenu(Product arr[], int globalQuantity)
             cout << "Invalid input!" << endl;
         }
     } while (choice != 0);
+}
+void SortMenu(Product arr[], int globalQuantity)
+{
+    int choice;
+
+    do
+    {
+        ShowSortMenu();
+
+        while (!(cin >> choice))
+        {
+            cin.clear();
+            cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+            cout << "Invalid input! Enter a number: ";
+        }
+
+        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+
+        switch (choice)
+        {
+        case 1:
+            // SortByName(arr, globalQuantity);
+            break;
+        case 2:
+            // SortByProductGroup(arr, globalQuantity);
+            break;
+        case 0:
+            break;
+        default:
+            cout << "Invalid input!" << endl;
+        }
+    } while (choice != 0);
+
+
 }
 

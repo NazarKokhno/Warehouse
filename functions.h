@@ -18,3 +18,5 @@ void RemoveProduct(Product arr[], int& globalQuantity);
 // MENU
 void ShowSearchMenu();
 void SearchMenu(Product arr[], int globalQuantity);
+void ShowSortMenu();
+void SortMenu(Product arr[], int globalQuantity);
