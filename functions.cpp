@@ -172,7 +172,8 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
     }
 
     cout << "Free space: " << freeSpace << endl;
-    cout << "How many products would you like to add?: ";
+    cout << "How many products would you like to add?" << endl;
+    cout << "--> ";
 
     int quantity;
     
@@ -208,8 +209,9 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
 
     do
     {
-        cout << "Save changes? (0 - No, 1 - Yes): ";
-        
+        cout << "Save changes? (0 - No, 1 - Yes)" << endl;
+        cout << "--> ";
+
         while (!(cin >> choice))
         {
             cin.clear();
@@ -276,7 +278,7 @@ void QuickCheckForDemo(Product arr[], int SIZE, int& globalQuantity)
     AppendProducts(arr, globalQuantity, globalQuantity + 10);
     globalQuantity += 10;
 
-    cout << "Products added." << endl;
+    cout << "Products added." << endl << endl;
 }
 bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
 {
@@ -289,7 +291,7 @@ bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
 
     int choice;
     cout << "1 - Add products; 2 - Quick Check; 0 - Exit" << endl;
-    cout << "Your choice: ";
+    cout << "--> ";
  
     while (!(cin >> choice))
     {
@@ -399,6 +401,12 @@ void ReplaceProduct(Product arr[], int& globalQuantity)
 }
 void ShowAllProducts(Product arr[], int& globalQuantity)
 {
+    if (globalQuantity == 0)
+    {
+        cout << "The warehouse is empty." << endl;
+        return;
+    }
+    
     for (int i = 0; i < globalQuantity; i++)
     {
         cout << i + 1 << ". "
@@ -410,9 +418,287 @@ void ShowAllProducts(Product arr[], int& globalQuantity)
             << arr[i].expirationDate << endl;
     }
 }
+void SearchByName(Product arr[], int& globalQuantity)
+{
+    char nameChoice[PRODUCT_NAME_SIZE];
+    cout << "Enter the product name to search" << endl;
+    cout << "--> ";
+    cin.getline(nameChoice, PRODUCT_NAME_SIZE);
+
+    int matches = 0;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].productName, nameChoice) == 0)
+        {
+            matches++;
+        }
+    }
+
+    if (matches == 0)
+    {
+        cout << "Product not found!" << endl;
+        return;
+    }
+
+    cout << "\nMatches found: " << matches << endl;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].productName, nameChoice) == 0)
+        {
+            cout << arr[i].manufacturerName << " | "
+                << "(" << arr[i].productName << ")" << " | "
+                << arr[i].productPrice << " | "
+                << arr[i].groupName << " | "
+                << arr[i].arrivalDate << " | "
+                << arr[i].expirationDate << endl;
+        }
+    }
+
+}
+void SearchByManufacturer(Product arr[], int& globalQuantity)
+{
+    char manufacturerChoice[MANUFACTURER_NAME_SIZE];
+    cout << "Enter the product manufacturer to search" << endl;
+    cout << "--> ";
+    cin.getline(manufacturerChoice, MANUFACTURER_NAME_SIZE);
+
+    int matches = 0;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].manufacturerName, manufacturerChoice) == 0)
+        {
+            matches++;
+        }
+    }
+
+    if (matches == 0)
+    {
+        cout << "Product not found!" << endl;
+        return;
+    }
+
+    cout << "\nMatches found: " << matches << endl;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].manufacturerName, manufacturerChoice) == 0)
+        {
+            cout << "(" << arr[i].manufacturerName << ")" << " | "
+                << arr[i].productName << " | "
+                << arr[i].productPrice << " | "
+                << arr[i].groupName << " | "
+                << arr[i].arrivalDate << " | "
+                << arr[i].expirationDate << endl;
+        }
+    }
+
+}
+void SearchByPrice(Product arr[], int& globalQuantity)
+{
+    double priceChoice;
+    cout << "Enter the product price to search" << endl;
+    cout << "--> ";
+    cin >> priceChoice;
+    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+
+    int matches = 0;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (arr[i].productPrice == priceChoice)
+        {
+            matches++;
+        }
+    }
+
+    if (matches == 0)
+    {
+        cout << "Product not found!" << endl;
+        return;
+    }
+
+    cout << "\nMatches found: " << matches << endl;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (arr[i].productPrice == priceChoice)
+        {
+            cout << arr[i].manufacturerName << " | "
+                << arr[i].productName << " | "
+                << "(" << arr[i].productPrice << ")" << " | "
+                << arr[i].groupName << " | "
+                << arr[i].arrivalDate << " | "
+                << arr[i].expirationDate << endl;
+        }
+    }
+
+}
+void SearchByGroup(Product arr[], int& globalQuantity)
+{
+    char groupChoice[GROUP_NAME_SIZE];
+    cout << "Enter the product group to search (e.g. Food)" << endl;
+    cout << "--> ";
+    cin.getline(groupChoice, GROUP_NAME_SIZE);
+
+    int matches = 0;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].groupName, groupChoice) == 0)
+        {
+            matches++;
+        }
+    }
+
+    if (matches == 0)
+    {
+        cout << "Product not found!" << endl;
+        return;
+    }
+
+    cout << "\nMatches found: " << matches << endl;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].groupName, groupChoice) == 0)
+        {
+            cout << arr[i].manufacturerName << " | "
+                << arr[i].productName << " | "
+                << arr[i].productPrice << " | "
+                << "(" << arr[i].groupName << ")" << " | "
+                << arr[i].arrivalDate << " | "
+                << arr[i].expirationDate << endl;
+        }
+    }
+
+}
+void SearchByArrivalDate(Product arr[], int& globalQuantity)
+{
+    char ArrivalDateChoice[ARRIVAL_DATE_SIZE];
+    
+    int matches = 0;
+    bool isValid;
+
+    do
+    {
+        cout << "Enter the arrival date to search (DD.MM.YYYY)" << endl;
+        cout << "--> ";
+        cin.getline(ArrivalDateChoice, ARRIVAL_DATE_SIZE);
+
+        isValid = IsValidDateFormat(ArrivalDateChoice);
+
+        if (!isValid)
+        {
+            cout << "Invalid input!" << endl;
+        }
+
+    } while (!isValid);
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].arrivalDate, ArrivalDateChoice) == 0)
+        {
+            matches++;
+        }
+    }
+
+    if (matches == 0)
+    {
+        cout << "Product not found!" << endl;
+        return;
+    }
+
+    cout << "\nMatches found: " << matches << endl;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].arrivalDate, ArrivalDateChoice) == 0)
+        {
+            cout << arr[i].manufacturerName << " | "
+                << arr[i].productName << " | "
+                << arr[i].productPrice << " | "
+                << arr[i].groupName << " | "
+                << "(" << arr[i].arrivalDate << ")" << " | "
+                << arr[i].expirationDate << endl;
+        }
+    }
+
+}
+void SearchByExpirationDate(Product arr[], int& globalQuantity)
+{
+    char ExpirationDateChoice[EXPIRATION_DATE_SIZE];
+
+    int matches = 0;
+    bool isValid;
+
+    do
+    {
+        cout << "Enter the expiration date to search (DD.MM.YYYY): ";
+        cin.getline(ExpirationDateChoice, EXPIRATION_DATE_SIZE);
+
+        isValid = IsValidDateFormat(ExpirationDateChoice);
+
+        if (!isValid)
+        {
+            cout << "Invalid input!" << endl;
+        }
+
+    } while (!isValid);
+
+
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].expirationDate, ExpirationDateChoice) == 0)
+        {
+            matches++;
+        }
+    }
+
+    if (matches == 0)
+    {
+        cout << "Product not found!" << endl;
+        return;
+    }
+
+    cout << "\nMatches found: " << matches << endl;
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].expirationDate, ExpirationDateChoice) == 0)
+        {
+            cout << arr[i].manufacturerName << " | "
+                << arr[i].productName << " | "
+                << arr[i].productPrice << " | "
+                << arr[i].groupName << " | "
+                << arr[i].arrivalDate  << " | "
+                << "(" << arr[i].expirationDate << ")" << endl;
+        }
+    }
+
+}
+
 
 
 // MENU
+
+void ShowMenu(int globalQuantity)
+{
+    cout << "\n===== WAREHOUSE DEMO MODE =====" << endl;
+    cout << "Products in warehouse: " << globalQuantity << " / " << WAREHOUSE_SIZE << endl;
+    cout << "1 - Add product" << endl;
+    cout << "2 - Remove product" << endl;
+    cout << "3 - Replace product" << endl;
+    cout << "4 - Search product" << endl;
+    cout << "5 - Sort product" << endl;
+    cout << "6 - Quick Check (Add 10 Demo Products)" << endl;
+    cout << "7 - Show all products" << endl;
+    cout << "0 - Exit" << endl;
+    cout << "Your choice: ";
+}
 void ShowSearchMenu()
 {
     cout << "\n===== SEARCH =====" << endl;
@@ -433,7 +719,6 @@ void ShowSortMenu()
     cout << "0 - Back" << endl;
     cout << "Your choice: ";
 }
-
 void SearchMenu(Product arr[], int globalQuantity)
 {
     int choice;
@@ -454,22 +739,22 @@ void SearchMenu(Product arr[], int globalQuantity)
         switch (choice)
         {
         case 1:
-            // SearchByName(arr, globalQuantity);
+             SearchByName(arr, globalQuantity);
             break;
         case 2:
-            // SearchByManufacturer(arr, globalQuantity);
+             SearchByManufacturer(arr, globalQuantity);
             break;
         case 3:
-            // SearchByPrice(arr, globalQuantity);
+             SearchByPrice(arr, globalQuantity);
             break;
         case 4:
-            // SearchByGroup(arr, globalQuantity);
+             SearchByGroup(arr, globalQuantity);
             break;
         case 5:
-            // SearchByArrivalDate(arr, globalQuantity);
+             SearchByArrivalDate(arr, globalQuantity);
             break;
         case 6:
-            // SearchByExpirationDate(arr, globalQuantity);
+             SearchByExpirationDate(arr, globalQuantity);
             break;
         case 0:
             break;
