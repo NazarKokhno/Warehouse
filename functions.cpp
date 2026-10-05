@@ -279,7 +279,7 @@ void QuickCheckForDemo(Product arr[], int SIZE, int& globalQuantity)
     AppendProducts(arr, globalQuantity, globalQuantity + 10);
     globalQuantity += 10;
 
-    cout << "Products added." << endl << endl;
+    cout << "Products added." << endl;
 }
 bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
 {
@@ -407,7 +407,8 @@ void ShowAllProducts(Product arr[], int globalQuantity)
         cout << "The warehouse is empty." << endl;
         return;
     }
-    
+    cout << endl;
+
     for (int i = 0; i < globalQuantity; i++)
     {
         cout << i + 1 << ". "
@@ -688,8 +689,38 @@ void SearchByExpirationDate(Product arr[], int globalQuantity)
     }
 
 }
+void SortByPrice(Product arr[], int globalQuantity)
+{
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        for (int j = 0; j < globalQuantity - 1 - i; j++)
+        {
+            if (arr[j].productPrice > arr[j + 1].productPrice)
+            {
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
 
+    SaveAll(arr, globalQuantity);
+    cout << "Products sorted. To see the changes, select \"Show all products\" in the menu." << endl;
+}
+void SortByProductGroup(Product arr[], int globalQuantity)
+{
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        for (int j = 0; j < globalQuantity - 1 - i; j++)
+        {
+            if (strcmp(arr[j].groupName,arr[j+1].groupName) > 0)
+            {
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
 
+    SaveAll(arr, globalQuantity);
+    cout << "Products sorted. To see the changes, select \"Show all products\" in the menu." << endl;
+}
 
 // MENU
 
@@ -791,10 +822,10 @@ void SortMenu(Product arr[], int globalQuantity)
         switch (choice)
         {
         case 1:
-            // SortByName(arr, globalQuantity);
+            SortByPrice(arr, globalQuantity);
             break;
         case 2:
-            // SortByProductGroup(arr, globalQuantity);
+             SortByProductGroup(arr, globalQuantity);
             break;
         case 0:
             break;
