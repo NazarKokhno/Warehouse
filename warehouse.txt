@@ -1,45 +1,5 @@
 Nestle|Nesquik|129.50|Food|05.10.2026|05.04.2027
-Coca-Cola|Coca-Cola 0.5L|35.00|Drinks|05.10.2026|05.04.2027
-Milka|Milk Chocolate|89.99|Food|05.10.2026|05.03.2027
-Barilla|Spaghetti|74.50|Food|05.10.2026|05.10.2028
-J7|Orange Juice|69.90|Drinks|05.10.2026|05.01.2027
-Nivea|Shower Gel|119.00|Cosmetics|05.10.2026|05.10.2029
-Colgate|Toothpaste|85.00|Hygiene|05.10.2026|05.10.2029
-Rexona|Deodorant|109.50|Hygiene|05.10.2026|05.10.2029
-Lay's|Potato Chips|54.99|Snacks|05.10.2026|05.02.2027
-Orbit|Chewing Gum|39.50|Snacks|05.10.2026|05.10.2027
-Nestle|Nesquik|129.50|Food|05.10.2026|05.04.2027
-Coca-Cola|Coca-Cola 0.5L|35.00|Drinks|05.10.2026|05.04.2027
-Milka|Milk Chocolate|89.99|Food|05.10.2026|05.03.2027
-Barilla|Spaghetti|74.50|Food|05.10.2026|05.10.2028
-J7|Orange Juice|69.90|Drinks|05.10.2026|05.01.2027
-Nivea|Shower Gel|119.00|Cosmetics|05.10.2026|05.10.2029
-Colgate|Toothpaste|85.00|Hygiene|05.10.2026|05.10.2029
-Rexona|Deodorant|109.50|Hygiene|05.10.2026|05.10.2029
-Lay's|Potato Chips|54.99|Snacks|05.10.2026|05.02.2027
-Orbit|Chewing Gum|39.50|Snacks|05.10.2026|05.10.2027
-Nestle|Nesquik|129.50|Food|05.10.2026|05.04.2027
-Coca-Cola|Coca-Cola 0.5L|35.00|Drinks|05.10.2026|05.04.2027
-Milka|Milk Chocolate|89.99|Food|05.10.2026|05.03.2027
-Barilla|Spaghetti|74.50|Food|05.10.2026|05.10.2028
-J7|Orange Juice|69.90|Drinks|05.10.2026|05.01.2027
-Nivea|Shower Gel|119.00|Cosmetics|05.10.2026|05.10.2029
-Colgate|Toothpaste|85.00|Hygiene|05.10.2026|05.10.2029
-Rexona|Deodorant|109.50|Hygiene|05.10.2026|05.10.2029
-Lay's|Potato Chips|54.99|Snacks|05.10.2026|05.02.2027
-Orbit|Chewing Gum|39.50|Snacks|05.10.2026|05.10.2027
-Nestle|Nesquik|129.50|Food|05.10.2026|05.04.2027
-Coca-Cola|Coca-Cola 0.5L|35.00|Drinks|05.10.2026|05.04.2027
-Milka|Milk Chocolate|89.99|Food|05.10.2026|05.03.2027
-Barilla|Spaghetti|74.50|Food|05.10.2026|05.10.2028
-J7|Orange Juice|69.90|Drinks|05.10.2026|05.01.2027
-Nivea|Shower Gel|119.00|Cosmetics|05.10.2026|05.10.2029
-Colgate|Toothpaste|85.00|Hygiene|05.10.2026|05.10.2029
-Rexona|Deodorant|109.50|Hygiene|05.10.2026|05.10.2029
-Lay's|Potato Chips|54.99|Snacks|05.10.2026|05.02.2027
-Orbit|Chewing Gum|39.50|Snacks|05.10.2026|05.10.2027
-Nestle|Nesquik|129.50|Food|05.10.2026|05.04.2027
-Coca-Cola|Coca-Cola 0.5L|35.00|Drinks|05.10.2026|05.04.2027
+Coca-Cola|Coca-Cola 1.0L|35.00|Drinks|05.10.2026|05.04.2027
 Milka|Milk Chocolate|89.99|Food|05.10.2026|05.03.2027
 Barilla|Spaghetti|74.50|Food|05.10.2026|05.10.2028
 J7|Orange Juice|69.90|Drinks|05.10.2026|05.01.2027

@@ -12,7 +12,7 @@
 
 using namespace std;
 
-
+// Validation function
 bool IsValidDateFormat(const char date[])
 {
     if (strlen(date) != 10)
@@ -24,6 +24,7 @@ bool IsValidDateFormat(const char date[])
     return true;
 }
 
+// File Operations Functions
 void SaveAll(Product arr[], int globalQuantity)
 {
     FILE* f = fopen("warehouse.txt", "w");
@@ -69,6 +70,95 @@ void AppendProducts(Product arr[], int start, int end)
     fclose(f);
 }
 
+//Filling an array
+void InputProduct(Product& p)
+{
+
+    cout << "Enter the manufacturer's name: ";
+    cin.getline(p.manufacturerName, MANUFACTURER_NAME_SIZE);
+
+    cout << "Enter the product name: ";
+    cin.getline(p.productName, PRODUCT_NAME_SIZE);
+
+
+    cout << "Enter the product price: ";
+
+    while (!(cin >> p.productPrice) || p.productPrice < 0)
+    {
+        cin.clear();
+        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+        cout << "Invalid input! Enter a non-negative number: ";
+    }
+
+    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+
+    cout << "Enter the product`s group name: ";
+    cin.getline(p.groupName, GROUP_NAME_SIZE);
+
+    bool isValid;
+
+    do
+    {
+        cout << "Enter the date of arrival at the warehouse (DD.MM.YYYY): ";
+        cin.getline(p.arrivalDate, ARRIVAL_DATE_SIZE);
+
+        isValid = IsValidDateFormat(p.arrivalDate);
+
+        if (!isValid)
+        {
+            cout << "Invalid input!" << endl;
+        }
+
+    } while (!isValid);
+
+    int choiceForDate;
+
+    do
+    {
+        cout << "Does this product have an expiration date? (0 - No, 1 - Yes): ";
+        while (!(cin >> choiceForDate))
+        {
+            cin.clear();
+            cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+            cout << "Invalid input! Enter a number: ";
+        }
+
+        if (choiceForDate != 0 && choiceForDate != 1)
+        {
+            cout << "Invalid input!" << endl;
+        }
+
+    } while (choiceForDate != 0 && choiceForDate != 1);
+
+    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+
+    if (choiceForDate == 0)
+    {
+        strncpy(p.expirationDate, "No expiration date", EXPIRATION_DATE_SIZE - 1);
+
+        p.expirationDate[EXPIRATION_DATE_SIZE - 1] = '\0';
+    }
+
+    else
+    {
+        do
+        {
+            cout << "Enter the product's expiration date (DD.MM.YYYY): ";
+            cin.getline(p.expirationDate, EXPIRATION_DATE_SIZE);
+
+            isValid = IsValidDateFormat(p.expirationDate);
+
+            if (!isValid)
+            {
+                cout << "Invalid input!" << endl;
+            }
+
+        } while (!isValid);
+    }
+
+
+}
+
 //Menu functions
 void AddProducts(Product arr[], int SIZE, int& globalQuantity)
 {
@@ -110,87 +200,8 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
     for (int i = start; i < end; i++)
     {
         cout << "POSITION " << i + 1 << endl;
-
-        cout << "Enter the product name: ";
-        cin.getline(arr[i].productName, PRODUCT_NAME_SIZE);
-
-        cout << "Enter the manufacturer's name: ";
-        cin.getline(arr[i].manufacturerName, MANUFACTURER_NAME_SIZE);
-
-        cout << "Enter the product price: ";
+        InputProduct(arr[i]);
         
-        while (!(cin >> arr[i].productPrice) || arr[i].productPrice < 0)
-        {
-            cin.clear();
-            cin.ignore((numeric_limits<streamsize>::max)(), '\n');
-            cout << "Invalid input! Enter a non-negative number: ";
-        }
-
-        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
-
-        cout << "Enter the product`s group name: ";
-        cin.getline(arr[i].groupName, GROUP_NAME_SIZE);
-
-        bool isValid;
-        
-        do
-        {
-            cout << "Enter the date of arrival at the warehouse (DD.MM.YYYY): ";
-            cin.getline(arr[i].arrivalDate, ARRIVAL_DATE_SIZE);
-
-            isValid = IsValidDateFormat(arr[i].arrivalDate);
-
-            if (!isValid)
-            {
-                cout << "Invalid input!" << endl;
-            }
-
-        } while (!isValid);
-
-        int choiceForDate;
-
-        do
-        {
-            cout << "Does this product have an expiration date? (0 - No, 1 - Yes): ";
-            while (!(cin >> choiceForDate))
-            {
-                cin.clear();
-                cin.ignore((numeric_limits<streamsize>::max)(), '\n');
-                cout << "Invalid input! Enter a number: ";
-            }
-
-            if (choiceForDate != 0 && choiceForDate != 1)
-            {
-                cout << "Invalid input!" << endl;
-            }
-
-        } while (choiceForDate != 0 && choiceForDate != 1);
-
-        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
-
-        if (choiceForDate == 0)
-        {
-            strncpy(arr[i].expirationDate, "No expiration date", EXPIRATION_DATE_SIZE - 1);
-            
-            arr[i].expirationDate[EXPIRATION_DATE_SIZE - 1] = '\0';
-        }
-        
-        else
-        {
-            do
-            {
-                cout << "Enter the product's expiration date (DD.MM.YYYY): ";
-                cin.getline(arr[i].expirationDate, EXPIRATION_DATE_SIZE);
-
-                isValid = IsValidDateFormat(arr[i].expirationDate);
-
-                if (!isValid)
-                {
-                    cout << "Invalid input!" << endl;
-                }
-
-            } while (!isValid);
-        }
     }
 
     int choice;
@@ -205,6 +216,7 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
             cin.ignore((numeric_limits<streamsize>::max)(), '\n');
             cout << "Invalid input! Enter a number: ";
         }
+        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
 
         switch (choice)
         {
@@ -217,7 +229,7 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
             case 1:
             {
                 AppendProducts(arr, start, end);
-                    globalQuantity += quantity;
+                globalQuantity += quantity;
                 break;
             }
 
@@ -228,7 +240,7 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
 
     } while (choice != 0 && choice != 1);
                
-
+    cout << "Product added. To see the changes, select \"Show all products\" in the menu." << endl;
 }
 void QuickCheckForDemo(Product arr[], int SIZE, int& globalQuantity)
 {
@@ -263,6 +275,8 @@ void QuickCheckForDemo(Product arr[], int SIZE, int& globalQuantity)
 
     AppendProducts(arr, globalQuantity, globalQuantity + 10);
     globalQuantity += 10;
+
+    cout << "Products added." << endl;
 }
 bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
 {
@@ -344,9 +358,43 @@ void RemoveProduct(Product arr[], int& globalQuantity)
     }
 
     globalQuantity--;
-    cout << "The product was removed." << endl;
     SaveAll(arr, globalQuantity);
+    cout << "The product was removed. To see the changes, select \"Show all products\" in the menu." << endl;
 }
+void ReplaceProduct(Product arr[], int& globalQuantity)
+{
+    char item[PRODUCT_NAME_SIZE];
+    
+
+    int index = -1;
+
+    cout << "Enter the name of the current product." << endl;
+    cout << "--> ";
+    cin.getline(item, PRODUCT_NAME_SIZE);
+   
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].productName, item) == 0)
+        {
+            index = i;
+            break;
+        }
+
+    }
+
+    if (index == -1)
+    {
+        cout << "Product not found!" << endl;
+        return;
+    }
+
+    InputProduct(arr[index]);
+
+    SaveAll(arr, globalQuantity);
+    cout << "The product was replaced. To see the changes, select \"Show all products\" in the menu." << endl;
+    
+}
+
 
 // MENU
 void ShowSearchMenu()

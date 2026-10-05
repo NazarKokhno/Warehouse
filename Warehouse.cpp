@@ -73,7 +73,7 @@ int main()
         {
             if (EnsureWarehouseExists(warehouseData, WAREHOUSE_SIZE, globalQuantity))
             {
-                // ReplaceProduct(warehouse, globalQuantity);
+                 ReplaceProduct(warehouseData, globalQuantity);
             }
             break;
         }
@@ -96,12 +96,13 @@ int main()
             break;
 
         }
-        
+
         case 6:
         {
             QuickCheckForDemo(warehouseData, WAREHOUSE_SIZE, globalQuantity);
             break;
         }
+        
         case 0:
             cout << "Goodbye!" << endl;
             break;
