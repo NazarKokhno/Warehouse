@@ -10,3 +10,5 @@ struct Product
     char arrivalDate[ARRIVAL_DATE_SIZE];
     char expirationDate[EXPIRATION_DATE_SIZE];
 };
+
+

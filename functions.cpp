@@ -12,6 +12,21 @@
 
 using namespace std;
 
+//Quick check func
+Product products[10] =
+{
+    {"Nestle", "Nesquik", 129.50, "Food", "05.10.2026", "05.04.2027"},
+    {"Coca-Cola", "Coca-Cola 0.5L", 35.00, "Drinks", "05.10.2026", "05.04.2027"},
+    {"Milka", "Milk Chocolate", 89.99, "Food", "05.10.2026", "05.03.2027"},
+    {"Barilla", "Spaghetti", 74.50, "Food", "05.10.2026", "05.10.2028"},
+    {"J7", "Orange Juice", 69.90, "Drinks", "05.10.2026", "05.01.2027"},
+    {"Nivea", "Shower Gel", 119.00, "Cosmetics", "05.10.2026", "05.10.2029"},
+    {"Colgate", "Toothpaste", 85.00, "Hygiene", "05.10.2026", "05.10.2029"},
+    {"Rexona", "Deodorant", 109.50, "Hygiene", "05.10.2026", "05.10.2029"},
+    {"Lay's", "Potato Chips", 54.99, "Snacks", "05.10.2026", "05.02.2027"},
+    {"Orbit", "Chewing Gum", 39.50, "Snacks", "05.10.2026", "05.10.2027"}
+};
+
 
 bool IsValidDateFormat(const char date[])
 {
@@ -23,7 +38,6 @@ bool IsValidDateFormat(const char date[])
 
     return true;
 }
-
 bool IsValidExpirationDate(const char date[])
 {
     if (strlen(date) != 10)
@@ -35,6 +49,7 @@ bool IsValidExpirationDate(const char date[])
     return true;
 }
 
+//Menu functions
 void AddProducts(Product arr[], int SIZE, int& globalQuantity)
 {
    
@@ -222,7 +237,113 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
                
 
 }
+void quickCheckForDemo(Product arr[], int SIZE, int& globalQuantity)
+{
+    int freeSpace = SIZE - globalQuantity;
 
+    if (freeSpace < 10)
+    {
+        cout << "Warehouse is full!" << endl;
+        cout << "To use the quick check mode, free up space for 10 items." << endl;
+        return;
+    }
+   
+
+    bool isNewFile = (globalQuantity == 0);
+    FILE* warehouseFile = fopen("warehouse.txt", isNewFile ? "w" : "a");
+
+    if (warehouseFile == NULL)
+    {
+        perror("Error opening file");
+        return;
+    }
+
+    if (isNewFile)
+    {
+        fprintf(warehouseFile, "%-20s %-20s %-20s %-20s %-20s %-30s\n\n",
+            "Manufacturer", "Product", "Price", "Group",
+            "Date of arrival", "Best-before date");
+    }
+    
+    Product products[10] =
+    {
+        {"Nestle", "Nesquik", 129.50, "Food", "05.10.2026", "05.04.2027"},
+        {"Coca-Cola", "Coca-Cola 0.5L", 35.00, "Drinks", "05.10.2026", "05.04.2027"},
+        {"Milka", "Milk Chocolate", 89.99, "Food", "05.10.2026", "05.03.2027"},
+        {"Barilla", "Spaghetti", 74.50, "Food", "05.10.2026", "05.10.2028"},
+        {"J7", "Orange Juice", 69.90, "Drinks", "05.10.2026", "05.01.2027"},
+        {"Nivea", "Shower Gel", 119.00, "Cosmetics", "05.10.2026", "05.10.2029"},
+        {"Colgate", "Toothpaste", 85.00, "Hygiene", "05.10.2026", "05.10.2029"},
+        {"Rexona", "Deodorant", 109.50, "Hygiene", "05.10.2026", "05.10.2029"},
+        {"Lay's", "Potato Chips", 54.99, "Snacks", "05.10.2026", "05.02.2027"},
+        {"Orbit", "Chewing Gum", 39.50, "Snacks", "05.10.2026", "05.10.2027"}
+    };
+
+    for (int i = 0; i < 10; i++)
+    {
+        fprintf(warehouseFile, "%-20s %-20s %-20.2f %-20s %-20s %-30s\n",
+            products[i].manufacturerName,
+            products[i].productName,
+            products[i].productPrice,
+            products[i].groupName,
+            products[i].arrivalDate,
+            products[i].expirationDate);
+   
+    }
+
+    for (int i = 0; i < 10; i++)
+    {
+        arr[globalQuantity + i] = products[i];
+    }
+
+    globalQuantity += 10;
+
+    fclose(warehouseFile);
+
+}
+bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
+{
+    if (globalQuantity > 0)
+    {
+        return true;
+    }
+
+    cout << "The warehouse is empty. Add products first or use Quick Check." << endl;
+
+    int choice;
+    cout << "1 - Add products; 2 - Quick Check; 0 - Exit" << endl;
+    cout << "Your choice: ";
+    cin >> choice;
+
+    switch (choice)
+    {
+        case 1:
+        {
+            AddProducts(arr, size, globalQuantity);
+            return globalQuantity > 0;
+        }
+
+        case 2:
+        {
+            quickCheckForDemo(arr, size, globalQuantity);
+            return globalQuantity > 0;
+        }
+
+        case 0:
+        {
+            return false;
+        }
+
+        default:
+        {
+            cout << "Invalid input!" << endl;
+            return false;
+        }
+    }
+    
+}
+
+// MENU
 void ShowSearchMenu()
 {
     cout << "\n===== SEARCH =====" << endl;
@@ -235,7 +356,6 @@ void ShowSearchMenu()
     cout << "0 - Back" << endl;
     cout << "Your choice: ";
 }
-
 void SearchMenu(Product arr[], int globalQuantity)
 {
     int choice;
@@ -281,15 +401,3 @@ void SearchMenu(Product arr[], int globalQuantity)
     } while (choice != 0);
 }
 
-bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
-{
-    if (globalQuantity > 0)
-    {
-        return true;
-    }
-
-    cout << "The warehouse is empty. Let's add products first." << endl;
-    AddProducts(arr, size, globalQuantity);
-
-    return globalQuantity > 0;
-}

@@ -15,12 +15,13 @@ using namespace std;
 
 void ShowMenu(int globalQuantity)
 {
-    cout << "\n===== WAREHOUSE MENU =====" << endl;
+    cout << "\n===== WAREHOUSE DEMO MODE =====" << endl;
     cout << "Products in warehouse: " << globalQuantity << " / " << WAREHOUSE_SIZE << endl;
     cout << "1 - Add product" << endl;
     cout << "2 - Remove product" << endl;
     cout << "3 - Replace product" << endl;
     cout << "4 - Search product" << endl;
+    cout << "5 - Quick Check (Add 10 Demo Products)" << endl;
     cout << "0 - Exit" << endl;
     cout << "Your choice: ";
 }
@@ -51,31 +52,42 @@ int main()
         {
         
         case 1:
-
+        {
             AddProducts(warehouseData, WAREHOUSE_SIZE, globalQuantity);
             break;
+        }
         
         case 2:
+        {
             if (EnsureWarehouseExists(warehouseData, WAREHOUSE_SIZE, globalQuantity))
             {
                 // RemoveProduct(warehouse, globalQuantity);
             }
             break;
+        }
         
         case 3:
+        {
             if (EnsureWarehouseExists(warehouseData, WAREHOUSE_SIZE, globalQuantity))
             {
                 // ReplaceProduct(warehouse, globalQuantity);
             }
             break;
+        }
        
         case 4:
+        {
             if (EnsureWarehouseExists(warehouseData, WAREHOUSE_SIZE, globalQuantity))
             {
                 SearchMenu(warehouseData, globalQuantity);
             }
             break;
-        
+        }
+        case 5:
+        {
+            quickCheckForDemo(warehouseData, WAREHOUSE_SIZE, globalQuantity);
+            break;
+        }
         case 0:
             cout << "Goodbye!" << endl;
             break;
