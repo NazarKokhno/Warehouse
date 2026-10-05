@@ -28,6 +28,8 @@ void ShowMenu(int globalQuantity)
 
 int main()
 {
+    FILE* f = fopen("warehouse.txt", "w");
+    if (f) fclose(f);
 
     Product warehouseData[WAREHOUSE_SIZE];
     
@@ -61,7 +63,7 @@ int main()
         {
             if (EnsureWarehouseExists(warehouseData, WAREHOUSE_SIZE, globalQuantity))
             {
-                // RemoveProduct(warehouse, globalQuantity);
+                 RemoveProduct(warehouseData, globalQuantity);
             }
             break;
         }
@@ -85,7 +87,7 @@ int main()
         }
         case 5:
         {
-            quickCheckForDemo(warehouseData, WAREHOUSE_SIZE, globalQuantity);
+            QuickCheckForDemo(warehouseData, WAREHOUSE_SIZE, globalQuantity);
             break;
         }
         case 0:

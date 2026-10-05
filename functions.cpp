@@ -12,33 +12,8 @@
 
 using namespace std;
 
-//Quick check func
-Product products[10] =
-{
-    {"Nestle", "Nesquik", 129.50, "Food", "05.10.2026", "05.04.2027"},
-    {"Coca-Cola", "Coca-Cola 0.5L", 35.00, "Drinks", "05.10.2026", "05.04.2027"},
-    {"Milka", "Milk Chocolate", 89.99, "Food", "05.10.2026", "05.03.2027"},
-    {"Barilla", "Spaghetti", 74.50, "Food", "05.10.2026", "05.10.2028"},
-    {"J7", "Orange Juice", 69.90, "Drinks", "05.10.2026", "05.01.2027"},
-    {"Nivea", "Shower Gel", 119.00, "Cosmetics", "05.10.2026", "05.10.2029"},
-    {"Colgate", "Toothpaste", 85.00, "Hygiene", "05.10.2026", "05.10.2029"},
-    {"Rexona", "Deodorant", 109.50, "Hygiene", "05.10.2026", "05.10.2029"},
-    {"Lay's", "Potato Chips", 54.99, "Snacks", "05.10.2026", "05.02.2027"},
-    {"Orbit", "Chewing Gum", 39.50, "Snacks", "05.10.2026", "05.10.2027"}
-};
-
 
 bool IsValidDateFormat(const char date[])
-{
-    if (strlen(date) != 10)
-        return false;
-
-    if (date[2] != '-' || date[5] != '-')
-        return false;
-
-    return true;
-}
-bool IsValidExpirationDate(const char date[])
 {
     if (strlen(date) != 10)
         return false;
@@ -47,6 +22,51 @@ bool IsValidExpirationDate(const char date[])
         return false;
 
     return true;
+}
+
+void SaveAll(Product arr[], int globalQuantity)
+{
+    FILE* f = fopen("warehouse.txt", "w");
+    if (f == NULL)
+    {
+        perror("Error opening file");
+        return;
+    }
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        fprintf(f, "%s|%s|%.2f|%s|%s|%s\n",
+            arr[i].manufacturerName,
+            arr[i].productName,
+            arr[i].productPrice,
+            arr[i].groupName,
+            arr[i].arrivalDate,
+            arr[i].expirationDate);
+    }
+
+    fclose(f);
+}
+void AppendProducts(Product arr[], int start, int end)
+{
+    FILE* f = fopen("warehouse.txt", "a"); 
+    if (f == NULL)
+    {
+        perror("Error opening file");
+        return;
+    }
+
+    for (int i = start; i < end; i++)
+    {
+        fprintf(f, "%s|%s|%.2f|%s|%s|%s\n",
+            arr[i].manufacturerName,
+            arr[i].productName,
+            arr[i].productPrice,
+            arr[i].groupName,
+            arr[i].arrivalDate,
+            arr[i].expirationDate);
+    }
+
+    fclose(f);
 }
 
 //Menu functions
@@ -91,11 +111,11 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
     {
         cout << "POSITION " << i + 1 << endl;
 
-        cout << "Enter the manufacturer's name: ";
-        cin.getline(arr[i].manufacturerName, MANUFACTURER_NAME_SIZE);
-
         cout << "Enter the product name: ";
         cin.getline(arr[i].productName, PRODUCT_NAME_SIZE);
+
+        cout << "Enter the manufacturer's name: ";
+        cin.getline(arr[i].manufacturerName, MANUFACTURER_NAME_SIZE);
 
         cout << "Enter the product price: ";
         
@@ -115,7 +135,7 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
         
         do
         {
-            cout << "Enter the date of arrival at the warehouse (DD-MM-YYYY): ";
+            cout << "Enter the date of arrival at the warehouse (DD.MM.YYYY): ";
             cin.getline(arr[i].arrivalDate, ARRIVAL_DATE_SIZE);
 
             isValid = IsValidDateFormat(arr[i].arrivalDate);
@@ -162,7 +182,7 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
                 cout << "Enter the product's expiration date (DD.MM.YYYY): ";
                 cin.getline(arr[i].expirationDate, EXPIRATION_DATE_SIZE);
 
-                isValid = IsValidExpirationDate(arr[i].expirationDate);
+                isValid = IsValidDateFormat(arr[i].expirationDate);
 
                 if (!isValid)
                 {
@@ -196,35 +216,8 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
 
             case 1:
             {
-                bool isNewFile = (globalQuantity == 0);
-                FILE* warehouseFile = fopen("warehouse.txt", isNewFile ? "w" : "a");
-
-                if (warehouseFile == NULL)
-                {
-                    perror("Error opening file");
-                    return;
-                }
-
-                if (isNewFile)
-                {
-                    fprintf(warehouseFile, "%-20s %-20s %-20s %-20s %-20s %-30s\n\n",
-                        "Manufacturer", "Product", "Price", "Group",
-                        "Date of arrival", "Best-before date");
-                }
-
-                for (int i = start; i < end; i++)
-                {
-                    fprintf(warehouseFile, "%-20s %-20s %-20.2f %-20s %-20s %-30s\n",
-                        arr[i].manufacturerName,
-                        arr[i].productName,
-                        arr[i].productPrice,
-                        arr[i].groupName,
-                        arr[i].arrivalDate,
-                        arr[i].expirationDate);
-                }
-
-                fclose(warehouseFile);
-                globalQuantity += quantity;
+                AppendProducts(arr, start, end);
+                    globalQuantity += quantity;
                 break;
             }
 
@@ -237,7 +230,7 @@ void AddProducts(Product arr[], int SIZE, int& globalQuantity)
                
 
 }
-void quickCheckForDemo(Product arr[], int SIZE, int& globalQuantity)
+void QuickCheckForDemo(Product arr[], int SIZE, int& globalQuantity)
 {
     int freeSpace = SIZE - globalQuantity;
 
@@ -249,57 +242,27 @@ void quickCheckForDemo(Product arr[], int SIZE, int& globalQuantity)
     }
    
 
-    bool isNewFile = (globalQuantity == 0);
-    FILE* warehouseFile = fopen("warehouse.txt", isNewFile ? "w" : "a");
-
-    if (warehouseFile == NULL)
-    {
-        perror("Error opening file");
-        return;
-    }
-
-    if (isNewFile)
-    {
-        fprintf(warehouseFile, "%-20s %-20s %-20s %-20s %-20s %-30s\n\n",
-            "Manufacturer", "Product", "Price", "Group",
-            "Date of arrival", "Best-before date");
-    }
-    
     Product products[10] =
     {
-        {"Nestle", "Nesquik", 129.50, "Food", "05.10.2026", "05.04.2027"},
-        {"Coca-Cola", "Coca-Cola 0.5L", 35.00, "Drinks", "05.10.2026", "05.04.2027"},
-        {"Milka", "Milk Chocolate", 89.99, "Food", "05.10.2026", "05.03.2027"},
-        {"Barilla", "Spaghetti", 74.50, "Food", "05.10.2026", "05.10.2028"},
-        {"J7", "Orange Juice", 69.90, "Drinks", "05.10.2026", "05.01.2027"},
-        {"Nivea", "Shower Gel", 119.00, "Cosmetics", "05.10.2026", "05.10.2029"},
-        {"Colgate", "Toothpaste", 85.00, "Hygiene", "05.10.2026", "05.10.2029"},
-        {"Rexona", "Deodorant", 109.50, "Hygiene", "05.10.2026", "05.10.2029"},
-        {"Lay's", "Potato Chips", 54.99, "Snacks", "05.10.2026", "05.02.2027"},
-        {"Orbit", "Chewing Gum", 39.50, "Snacks", "05.10.2026", "05.10.2027"}
-    };
+    {"Nestle", "Nesquik", 129.50, "Food", "05.10.2026", "05.04.2027"},
+    {"Coca-Cola", "Coca-Cola 0.5L", 35.00, "Drinks", "05.10.2026", "05.04.2027"},
+    {"Milka", "Milk Chocolate", 89.99, "Food", "05.10.2026", "05.03.2027"},
+    {"Barilla", "Spaghetti", 74.50, "Food", "05.10.2026", "05.10.2028"},
+    {"J7", "Orange Juice", 69.90, "Drinks", "05.10.2026", "05.01.2027"},
+    {"Nivea", "Shower Gel", 119.00, "Cosmetics", "05.10.2026", "05.10.2029"},
+    {"Colgate", "Toothpaste", 85.00, "Hygiene", "05.10.2026", "05.10.2029"},
+    {"Rexona", "Deodorant", 109.50, "Hygiene", "05.10.2026", "05.10.2029"},
+    {"Lay's", "Potato Chips", 54.99, "Snacks", "05.10.2026", "05.02.2027"},
+    {"Orbit", "Chewing Gum", 39.50, "Snacks", "05.10.2026", "05.10.2027"} };
 
-    for (int i = 0; i < 10; i++)
-    {
-        fprintf(warehouseFile, "%-20s %-20s %-20.2f %-20s %-20s %-30s\n",
-            products[i].manufacturerName,
-            products[i].productName,
-            products[i].productPrice,
-            products[i].groupName,
-            products[i].arrivalDate,
-            products[i].expirationDate);
-   
-    }
 
     for (int i = 0; i < 10; i++)
     {
         arr[globalQuantity + i] = products[i];
     }
 
+    AppendProducts(arr, globalQuantity, globalQuantity + 10);
     globalQuantity += 10;
-
-    fclose(warehouseFile);
-
 }
 bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
 {
@@ -314,6 +277,7 @@ bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
     cout << "1 - Add products; 2 - Quick Check; 0 - Exit" << endl;
     cout << "Your choice: ";
     cin >> choice;
+    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
 
     switch (choice)
     {
@@ -325,7 +289,7 @@ bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
 
         case 2:
         {
-            quickCheckForDemo(arr, size, globalQuantity);
+            QuickCheckForDemo(arr, size, globalQuantity);
             return globalQuantity > 0;
         }
 
@@ -341,6 +305,40 @@ bool EnsureWarehouseExists(Product arr[], int size, int& globalQuantity)
         }
     }
     
+}
+void RemoveProduct(Product arr[], int& globalQuantity)
+{
+    char item[PRODUCT_NAME_SIZE];
+    int index = -1;
+    cout << "Which item do you want to remove?" << endl;
+    cout << "--> ";
+    cin.getline(item, PRODUCT_NAME_SIZE);
+   
+
+    for (int i = 0; i < globalQuantity; i++)
+    {
+        if (strcmp(arr[i].productName, item) == 0)
+        {
+            index = i;
+            break;
+        }
+
+    }
+
+    if (index == -1)
+    {
+        cout << "Product not found!" << endl;
+        return;
+    }
+
+    for (int i = index; i < globalQuantity - 1; i++)
+    {
+        arr[i] = arr[i + 1];
+    }
+
+    globalQuantity--;
+    cout << "The product was removed." << endl;
+    SaveAll(arr, globalQuantity);
 }
 
 // MENU
